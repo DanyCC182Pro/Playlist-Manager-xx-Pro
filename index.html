@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Playlist Manager</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fab fa-youtube"></i>
+                    <span>Playlist Manager</span>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="nav-item active">
+                        <i class="fas fa-home"></i>
+                        <span>Inicio</span>
+                    </li>
+                    <li class="nav-item">
+                        <i class="fas fa-search"></i>
+                        <span>Buscar</span>
+                    </li>
+                    <li class="nav-item">
+                        <i class="fas fa-list"></i>
+                        <span>Tu Biblioteca</span>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="sidebar-divider"></div>
+            
+            <div class="playlist-section">
+                <div class="playlist-header">
+                    <span>Tus Playlists</span>
+                    <button class="btn-create-playlist" id="createPlaylistBtn">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+                <ul class="playlist-list" id="playlistList">
+                    <!-- Las playlists se cargarán dinámicamente -->
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="main-header">
+                <div class="header-nav">
+                    <button class="nav-btn" id="backBtn">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="nav-btn" id="forwardBtn">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+                
+                <div class="search-container">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Buscar videos de YouTube..." id="searchInput">
+                    </div>
+                </div>
+                
+                <div class="user-menu">
+                    <button class="user-btn">
+                        <i class="fas fa-user-circle"></i>
+                    </button>
+                </div>
+            </header>
+
+            <div class="content-area" id="contentArea">
+                <!-- Vista de Inicio -->
+                <div class="view home-view active" id="homeView">
+                    <h1>Bienvenido a tu Playlist Manager</h1>
+                    <p>Organiza tus videos favoritos de YouTube como en Spotify</p>
+                    
+                    <div class="quick-actions">
+                        <button class="action-btn primary" id="addVideoBtn">
+                            <i class="fas fa-plus"></i>
+                            Agregar Video
+                        </button>
+                        <button class="action-btn secondary" id="createPlaylistMainBtn">
+                            <i class="fas fa-list"></i>
+                            Crear Playlist
+                        </button>
+                    </div>
+                    
+                    <div class="recent-playlists" id="recentPlaylists">
+                        <h2>Playlists Recientes</h2>
+                        <div class="playlist-grid" id="playlistGrid">
+                            <!-- Las playlists se mostrarán aquí -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vista de Playlist -->
+                <div class="view playlist-view" id="playlistView">
+                    <div class="playlist-header-info">
+                        <div class="playlist-cover">
+                            <i class="fas fa-music"></i>
+                        </div>
+                        <div class="playlist-details">
+                            <span class="playlist-type">PLAYLIST</span>
+                            <h1 class="playlist-title" id="currentPlaylistTitle">Mi Playlist</h1>
+                            <p class="playlist-meta" id="currentPlaylistMeta">0 videos</p>
+                        </div>
+                    </div>
+                    
+                    <div class="playlist-controls">
+                        <button class="play-btn" id="playAllBtn">
+                            <i class="fas fa-play"></i>
+                        </button>
+                        <button class="control-btn" id="shuffleBtn">
+                            <i class="fas fa-random"></i>
+                        </button>
+                        <button class="control-btn" id="moreOptionsBtn">
+                            <i class="fas fa-ellipsis-h"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="track-list">
+                        <div class="track-list-header">
+                            <div class="track-number">#</div>
+                            <div class="track-title">TÍTULO</div>
+                            <div class="track-duration">DURACIÓN</div>
+                            <div class="track-actions"></div>
+                        </div>
+                        <div class="track-list-body" id="trackListBody">
+                            <!-- Los videos se mostrarán aquí -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vista de Búsqueda -->
+                <div class="view search-view" id="searchView">
+                    <h1>Buscar Videos</h1>
+                    <div class="search-results" id="searchResults">
+                        <!-- Los resultados de búsqueda se mostrarán aquí -->
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Player -->
+        <footer class="player">
+            <div class="player-left">
+                <div class="current-track" id="currentTrack">
+                    <div class="track-thumbnail">
+                        <i class="fas fa-music"></i>
+                    </div>
+                    <div class="track-info">
+                        <div class="track-name">Selecciona un video</div>
+                        <div class="track-artist">YouTube</div>
+                    </div>
+                    <button class="like-btn">
+                        <i class="far fa-heart"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="player-center">
+                <div class="player-controls">
+                    <button class="control-btn" id="shufflePlayerBtn">
+                        <i class="fas fa-random"></i>
+                    </button>
+                    <button class="control-btn" id="prevBtn">
+                        <i class="fas fa-step-backward"></i>
+                    </button>
+                    <button class="play-pause-btn" id="playPauseBtn">
+                        <i class="fas fa-play"></i>
+                    </button>
+                    <button class="control-btn" id="nextBtn">
+                        <i class="fas fa-step-forward"></i>
+                    </button>
+                    <button class="control-btn" id="repeatBtn">
+                        <i class="fas fa-redo"></i>
+                    </button>
+                </div>
+                
+                <div class="progress-bar">
+                    <span class="time-current">0:00</span>
+                    <div class="progress-container">
+                        <div class="progress-track">
+                            <div class="progress-fill" id="progressFill"></div>
+                            <div class="progress-handle" id="progressHandle"></div>
+                        </div>
+                    </div>
+                    <span class="time-total">0:00</span>
+                </div>
+            </div>
+            
+            <div class="player-right">
+                <button class="control-btn" id="queueBtn">
+                    <i class="fas fa-list"></i>
+                </button>
+                <button class="control-btn" id="deviceBtn">
+                    <i class="fas fa-desktop"></i>
+                </button>
+                <div class="volume-control">
+                    <button class="control-btn" id="volumeBtn">
+                        <i class="fas fa-volume-up"></i>
+                    </button>
+                    <div class="volume-slider">
+                        <div class="volume-track">
+                            <div class="volume-fill" id="volumeFill"></div>
+                            <div class="volume-handle" id="volumeHandle"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Modales -->
+    <div class="modal-overlay" id="modalOverlay">
+        <!-- Modal Crear Playlist -->
+        <div class="modal" id="createPlaylistModal">
+            <div class="modal-header">
+                <h2>Crear Nueva Playlist</h2>
+                <button class="modal-close" id="closeCreatePlaylistModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="playlistName">Nombre de la playlist</label>
+                    <input type="text" id="playlistName" placeholder="Mi nueva playlist">
+                </div>
+                <div class="form-group">
+                    <label for="playlistDescription">Descripción (opcional)</label>
+                    <textarea id="playlistDescription" placeholder="Describe tu playlist..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn secondary" id="cancelCreatePlaylist">Cancelar</button>
+                <button class="btn primary" id="confirmCreatePlaylist">Crear</button>
+            </div>
+        </div>
+
+        <!-- Modal Agregar Video o Archivo -->
+        <div class="modal" id="addVideoModal">
+            <div class="modal-header">
+                <h2>Agregar Video o Archivo</h2>
+                <button class="modal-close" id="closeAddVideoModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Pestañas -->
+                <div style="display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 2px solid var(--border-color);">
+                    <button class="tab-btn" id="tabYouTube" style="flex: 1; padding: 12px; background: var(--bg-card); border: none; color: var(--text-primary); cursor: pointer; border-radius: 8px 8px 0 0; font-weight: 600; border-bottom: 3px solid var(--accent-primary); transition: all 0.2s;">
+                        <i class="fab fa-youtube"></i> YouTube
+                    </button>
+                    <button class="tab-btn" id="tabFile" style="flex: 1; padding: 12px; background: var(--bg-secondary); border: none; color: var(--text-secondary); cursor: pointer; border-radius: 8px 8px 0 0; font-weight: 600; transition: all 0.2s;">
+                        <i class="fas fa-file-audio"></i> Archivo Local
+                    </button>
+                </div>
+
+                <!-- Contenido YouTube -->
+                <div id="contentYouTube">
+                    <div class="form-group">
+                        <label for="videoUrl">URL del video de YouTube</label>
+                        <input type="url" id="videoUrl" placeholder="https://www.youtube.com/watch?v=...">
+                    </div>
+                </div>
+
+                <!-- Contenido Archivo -->
+                <div id="contentFile" style="display: none;">
+                    <div class="form-group">
+                        <label for="fileInputModal">Selecciona un archivo de audio o video</label>
+                        <input type="file" id="fileInputModal" accept="audio/*,video/*" style="width: 100%; padding: 10px; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-primary); cursor: pointer;">
+                        <small style="color: var(--text-secondary); display: block; margin-top: 8px;">
+                            <i class="fas fa-info-circle"></i> Formatos soportados: MP3, MP4, WAV, OGG, WEBM
+                        </small>
+                    </div>
+                </div>
+
+                <!-- Selector de playlist (común para ambas pestañas) -->
+                <div class="form-group">
+                    <label for="selectPlaylist">Seleccionar playlist</label>
+                    <select id="selectPlaylist">
+                        <option value="">Selecciona una playlist...</option>
+                    </select>
+                </div>
+
+                <!-- Preview -->
+                <div class="video-preview" id="videoPreview" style="display: none;">
+                    <!-- Preview del video/archivo se mostrará aquí -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn secondary" id="cancelAddVideo">Cancelar</button>
+                <button class="btn primary" id="confirmAddVideo">Agregar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- YouTube Player (oculto) -->
+    <div id="youtubePlayer" style="width: 1px; height: 1px; position: absolute; top: -9999px;"></div>
+
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script src="script.js"></script>
+</body>
+</html>
